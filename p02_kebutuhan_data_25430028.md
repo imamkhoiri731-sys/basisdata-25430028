@@ -1,10 +1,10 @@
-# Dokumen Kebutuhan Data - Klinik Pratama Harapan Sehat (fiktif)
+# Dokumen Kebutuhan Data - Klinik IK Sehat (fiktif)
 
 **NIM:** 25430028  **Tema:** Klinik (kode tema: klinik)
 
 ## 1. Latar belakang dan aktivitas organisasi
 
-Klinik Pratama Harapan Sehat adalah klinik rawat jalan fiktif yang melayani pemeriksaan umum, gigi, dan kesehatan ibu dan anak. Pasien mendaftar di loket, diperiksa dokter di poli yang dipilih, menerima tindakan dan resep bila perlu, lalu membayar di kasir. Obat diserahkan oleh apoteker setelah resep dibuat dokter.
+Klinik IK Sehat adalah klinik rawat jalan fiktif yang melayani pemeriksaan umum, gigi, dan kesehatan ibu dan anak. Pasien mendaftar di loket, diperiksa dokter di poli yang dipilih, menerima tindakan dan resep bila perlu, lalu membayar di kasir. Obat diserahkan oleh apoteker setelah resep dibuat dokter.
 
 Masalah yang mendasari kebutuhan data: berkas pasien yang pernah berkunjung sering terduplikasi karena pasien lupa nomor rekam medis, tarif tindakan dan harga obat berubah sehingga catatan lama tidak bisa dicek, stok obat kadang kosong saat resep sudah dibuat, dan data kesehatan pasien harus dijaga agar tidak dibaca petugas yang tidak berkepentingan. Kepala klinik juga membutuhkan laporan bulanan tentang kunjungan, penyakit terbanyak, stok obat menipis, dan pendapatan.
 
@@ -18,16 +18,16 @@ Masalah yang mendasari kebutuhan data: berkas pasien yang pernah berkunjung seri
 | PB-04 | Menulis resep | Dokter | Pasien membutuhkan obat |
 | PB-05 | Menyerahkan obat | Apoteker | Resep diterima apotek |
 | PB-06 | Memproses pembayaran | Kasir | Pasien selesai diperiksa |
-| PB-07 | Mengelola data master (dokter, poli, tindakan, obat) | Admin klinik | Ada data baru atau perubahan tarif, harga, jadwal |
+| PB-07 | Mengelola data master (dokter, poli, tindakan, obat, pemasok) | Admin klinik | Ada data baru atau perubahan tarif, harga, jadwal |
 | PB-08 | Memperbarui data pasien | Petugas pendaftaran | Data pasien berubah atau salah ketik |
 | PB-09 | Menyusun laporan bulanan | Kepala klinik | Awal bulan |
-
+| PB-10 | Menerima obat dari pemasok | Apoteker | Obat datang bersama faktur pemasok |
 ## 3. Dokumen sumber yang dianalisis
 
 Dokumen sumber rancangan sendiri: **Lembar Kunjungan Pasien**.
 
 ```
-KLINIK PRATAMA HARAPAN SEHAT - LEMBAR KUNJUNGAN
+Klinik IK Sehat - LEMBAR KUNJUNGAN
 No. Kunjungan : KJ-2610-0007        Tanggal-jam : 12/10/2026 09:15
 No. RM        : RM-000123           Nama        : Budi Santoso
 Poli          : Umum                Dokter      : dr. Ayu Lestari
@@ -75,6 +75,8 @@ Pembedahan isian (data disimpan atau turunan):
 | Obat | kode obat, nama, harga jual, stok, batas minimum stok, tanggal kedaluwarsa | Daftar obat, faktur |
 | Resep dan detailnya | no. resep, kunjungan, obat, qty, harga saat resep, aturan pakai | Lembar kunjungan |
 | Pembayaran | no. pembayaran, kunjungan, tanggal bayar, jumlah bayar, metode, denda | Kuitansi |
+| Pemasok | kode pemasok, nama, telepon, alamat | Faktur pemasok |
+| Pembelian obat dan detailnya | no. faktur, tanggal terima, pemasok, obat, qty, harga beli | Faktur pemasok |
 
 ## 5. Aturan bisnis
 
@@ -86,10 +88,11 @@ Pembedahan isian (data disimpan atau turunan):
 | AB-04 | Tarif tindakan dan harga obat disimpan per baris pada saat transaksi dan tidak berubah meski data master kemudian berubah. |
 | AB-05 | Stok obat tidak boleh negatif; obat tidak dapat diserahkan bila qty melebihi stok. |
 | AB-06 | Obat yang melewati tanggal kedaluwarsa tidak boleh diserahkan. |
-| AB-07 | Setiap kunjungan memiliki paling banyak satu pembayaran lunas dan jumlah bayar harus sama dengan total tagihan. |
+| AB-07 | Setiap kunjungan memiliki paling banyak satu pembayaran lunas dan jumlah bayar harus sama dengan total tagihan ditambah denda keterlambatan bila ada. |
 | AB-08 | Tagihan yang belum lunas setelah 7 hari dikenai denda Rp2.000 per hari keterlambatan (P = 2 ribu rupiah). |
-| AB-09 | Diagnosis dan keluhan hanya dapat dibaca dokter yang menangani dan kepala klinik; petugas pendaftaran dan kasir tidak dapat membacanya. |
+| AB-09 | Keluhan dan diagnosis hanya dapat dibaca dokter yang menangani dan kepala klinik; petugas pendaftaran dan kasir hanya melihat identitas, rincian tarif, dan total tagihan. |
 | AB-10 | Data kunjungan dan pembayaran tidak dihapus; kesalahan input dikoreksi dengan perubahan data yang tercatat. |
+| AB-11 | Penerimaan obat menambah stok sebesar qty pada faktur pemasok, dan harga beli disimpan per baris faktur. |
 
 ## 6. Kebutuhan informasi
 
@@ -103,20 +106,20 @@ Pembedahan isian (data disimpan atau turunan):
 | KI-06 | Riwayat kunjungan seorang pasien berdasarkan no. RM atau NIK | Pasien, kunjungan |
 
 ## 7. Matriks CRUD
+| Proses | Pasien | Dokter | Poli | Kunjungan | Tindakan | Detail tindakan | Obat | Resep | Pembayaran | Pemasok | Pembelian obat |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| PB-01 Daftar pasien baru | C | | | | | | | | | | |
+| PB-02 Catat kunjungan | R | R | R | C | | | | | | | |
+| PB-03 Periksa dan catat tindakan | | | | R, U | R | C | | | | | |
+| PB-04 Tulis resep | | | | R | | | R | C | | | |
+| PB-05 Serahkan obat | | | | | | | R, U | R, U | | | |
+| PB-06 Proses pembayaran | | | | R | | R | | R | C, U | | |
+| PB-07 Kelola data master | | C, R, U | C, R, U | | C, R, U | | C, R, U | | | C, R, U | |
+| PB-08 Perbarui data pasien | R, U | | | | | | | | | | |
+| PB-09 Laporan bulanan | R | | R | R | | R | R | R | R | | R |
+| PB-10 Terima obat dari pemasok | | | | | | | R, U | | | R | C |
 
-| Proses | Pasien | Dokter | Poli | Kunjungan | Tindakan | Detail tindakan | Obat | Resep | Pembayaran |
-|---|---|---|---|---|---|---|---|---|---|
-| PB-01 Daftar pasien baru | C | | | | | | | | |
-| PB-02 Catat kunjungan | R | R | R | C | | | | | |
-| PB-03 Periksa dan catat tindakan | | | | R, U | R | C | | | |
-| PB-04 Tulis resep | | | | R | | | R | C | |
-| PB-05 Serahkan obat | | | | | | | R, U | R, U | |
-| PB-06 Proses pembayaran | | | | R | | R | | R | C, U |
-| PB-07 Kelola data master | | C, R, U | C, R, U | | C, R, U | | C, R, U | | |
-| PB-08 Perbarui data pasien | R, U | | | | | | | | |
-| PB-09 Laporan bulanan | R | | R | R | | R | R | R | R |
-
-Catatan: tidak ada huruf D karena data medis dan transaksi disimpan sesuai masa retensi (AB-10). Setiap entitas memiliki minimal satu proses yang melakukan C.
+Catatan: tidak ada huruf D karena data medis dan transaksi disimpan sesuai masa retensi (AB-10). Setiap entitas memiliki minimal satu proses yang melakukan C. pada PB-02 dan PB-06, akses ke Kunjungan hanya mencakup identitas dan nomor kunjungan, tidak termasuk keluhan dan diagnosis (AB-09).
 
 ## 8. Kamus data awal
 
@@ -155,6 +158,12 @@ Catatan: tidak ada huruf D karena data medis dan transaksi disimpan sesuai masa 
 | tanggal_bayar | Waktu pembayaran | 2026-10-12 09:50 | Diisi otomatis | Kasir |
 | metode_bayar | Cara pembayaran | Tunai | Nilai tunai atau transfer | Kasir |
 | denda_keterlambatan | Denda tagihan terlambat | 4000 | Rp2.000 per hari setelah hari ke-7 (AB-08) | Kasir |
+| kode_pemasok | Kode unik pemasok obat | PMS-03 | Unik | Admin klinik |
+| nama_pemasok | Nama pemasok | PT Sehat Farma | Wajib diisi | Admin klinik |
+| telepon_pemasok | Telepon pemasok | 0741xxxxxx | Angka, wajib diisi | Admin klinik |
+| no_faktur_pembelian | Nomor faktur pemasok | FK-0087 | Unik per pemasok | Apoteker |
+| qty_pembelian_obat | Jumlah obat diterima pada satu baris faktur | 100 | Bilangan bulat > 0 (AB-11) | Apoteker |
+| harga_beli_obat | Harga beli saat faktur | 700 | Bilangan bulat >= 0, tidak berubah (AB-11) | Apoteker |
 
 ## 9. Kebutuhan non-fungsional data
 
