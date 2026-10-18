@@ -222,6 +222,12 @@ Keterangan tambahan: PB-09 (menukar poin) dan PB-10 (mengelola data petugas, dik
 | harga_beli_detail_pembelian | Detail pembelian | Harga beli saat faktur | 3000 | Bilangan bulat ≥ 0, disimpan per baris | Petugas gudang |
 | poin_mutasi | Mutasi poin | Perubahan poin (+ diperoleh, − ditukar) | +2 / −50 | Bilangan bulat; ≠ 0 (AB-07, AB-08, AB-09) | Kasir |
 | tgl_mutasi_poin | Mutasi poin | Waktu mutasi poin | 2026-09-24 10:15 | Wajib; dicatat otomatis | Kasir |
+| spesialisasi_dokter | Bidang spesialisasi dokter | Penyakit Dalam | Wajib diisi | Admin klinik |
+| no_resep | Nomor resep | RSP-2609-0031 | Unik per resep | Dokter |
+| no_pembayaran | Nomor bukti pembayaran | BYR-2609-0018 | Unik per pembayaran | Kasir |
+| status_bayar | Status pelunasan tagihan | Lunas | Hanya Lunas atau Belum lunas | Kasir |
+| tanggal_pembelian | Tanggal faktur obat diterima | 2026-09-25 | Wajib, tidak boleh di masa depan | Apoteker |
+| alamat_pemasok | Alamat pemasok obat | Jl. Merdeka No. 10 | Wajib diisi | Admin klinik |
 
 ---
 
