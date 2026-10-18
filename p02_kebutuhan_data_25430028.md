@@ -164,6 +164,12 @@ Catatan: tidak ada huruf D karena data medis dan transaksi disimpan sesuai masa 
 | no_faktur_pembelian | Nomor faktur pemasok | FK-0087 | Unik per pemasok | Apoteker |
 | qty_pembelian_obat | Jumlah obat diterima pada satu baris faktur | 100 | Bilangan bulat > 0 (AB-11) | Apoteker |
 | harga_beli_obat | Harga beli saat faktur | 700 | Bilangan bulat >= 0, tidak berubah (AB-11) | Apoteker |
+| spesialisasi_dokter | Bidang spesialisasi dokter | Penyakit Dalam | Wajib diisi | Admin klinik |
+| no_resep | Nomor resep | RSP-2609-0031 | Unik per resep | Dokter |
+| no_pembayaran | Nomor bukti pembayaran | BYR-2609-0018 | Unik per pembayaran | Kasir |
+| status_bayar | Status pelunasan tagihan | Belum lunas | Hanya Lunas atau Belum lunas; dibuat Belum lunas saat tagihan terbit | Kasir |
+| tanggal_pembelian | Tanggal faktur obat diterima | 2026-09-25 | Wajib, tidak boleh di masa depan | Apoteker |
+| alamat_pemasok | Alamat pemasok obat | Jl. Merdeka No. 10 | Wajib diisi | Admin klinik |
 
 ## 9. Kebutuhan non-fungsional data
 
