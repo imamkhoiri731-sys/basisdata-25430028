@@ -137,6 +137,7 @@ Nilai turunan (tidak menjadi elemen disimpan pada tahap ini): subtotal baris, ju
 | AB-07 | Poin loyalitas diperoleh anggota aktif: setiap kelipatan Rp10.000 total belanja bernilai 1 poin (pecahan dibulatkan ke bawah). *(Latihan E1)* |
 | AB-08 | Poin ditukar dalam kelipatan 50 poin dengan potongan Rp5.000 per 50 poin; saldo poin tidak boleh negatif. *(Latihan E1)* |
 | AB-09 | Setiap penambahan dan penukaran poin dicatat sebagai riwayat per transaksi, bukan hanya saldo akhir. *(Latihan E1)* |
+| AB-10 | Pembelian berstatus diterima wajib memiliki petugas penerima; pembelian berstatus dipesan boleh belum memilikinya. |
 
 Asumsi AB-07: poin dihitung dari total yang dibayar setelah diskon anggota dan setelah potongan penukaran poin. Pada nota contoh (total Rp27.550), anggota memperoleh 2 poin.
 
